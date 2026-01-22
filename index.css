@@ -1,0 +1,39 @@
+@import url('common/css/orb-colors.css');
+@import url('common/css/bonuses.css');
+@import url('common/css/buttons.css');
+
+* {
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #2b303b;
+	width: 100%;
+	height: 100%;
+	font-family: "Open Sans";
+	font-size: 13px;
+	text-align: center;
+	overflow: hidden;
+}
+
+#container {
+	margin: auto;
+	text-align: center;
+	position: relative;
+	top: 50%;
+	transform: translate3d(0,-50%,0);
+}
+
+@media (hover) {
+	.slot:hover {
+		outline: 1px solid red;
+	}
+}
+
+#hide > img {
+	margin-top: 15%;
+	animation: fa-spin 3s infinite linear;
+}
