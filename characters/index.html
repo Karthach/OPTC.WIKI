@@ -58,27 +58,36 @@
         <script src="../common/libs/js/ion.rangeSlider.min.js"></script>
         <script src="../common/libs/js/ngDialog.min.js"></script>
 
-        <script src="../common/data/units.js"></script>
-        <script src="../common/data/tags.js"></script>
-        <script src="../common/data/aliases.js"></script>
-        <script src="../common/data/availableClasses.js"></script>
-        <script src="../common/data/availableTags.js"></script>
-        <script src="../common/data/filterOptions.js"></script>
-        <script src="../common/js/unitUtils.js"></script>
-        <script src="../common/data/details.js"></script>
-        <script src="../common/data/rumble.js"></script>
-        <script src="../common/data/cooldowns.js"></script>
-        <script src="../common/data/evolutions.js"></script>
-        <script src="../common/data/flags.js"></script>
-        <script src="../common/data/drops.js"></script>
-        <script src="../common/data/tandems.js"></script>
-        <script src="../common/data/families.js"></script>
-        <script src="../common/data/matchers.js"></script>
-        <script src="../common/data/gw.js"></script>
-        <script src="../common/data/festival.js"></script>
-        <script src="../common/data/version.js"></script>
-
-        <script src="../common/js/utils.js"></script>
+        <!-- Cargar datos pesados de forma asíncrona para mejorar la interactividad -->
+        <div id="data-loader" style="position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:9999;font-family:PT Sans, Arial, sans-serif;">Cargando datos, por favor espera...</div>
+        <script>
+        (function(){
+            var scripts = [
+                '../common/data/units.js',
+                '../common/data/details.js',
+                '../common/data/rumble.js',
+                '../common/data/specials.js',
+                '../common/data/captains.js',
+                '../common/js/utils.js'
+            ];
+            function loadNext(i){
+                if(i>=scripts.length){
+                    try{ if(window.Utils && Utils.parseUnits) Utils.parseUnits(false); }catch(e){ console.error(e); }
+                    var loader = document.getElementById('data-loader'); if(loader) loader.style.display='none';
+                    // Bootstrap manual de Angular solo después de cargar datos
+                    if(!document.querySelector('[ng-app]')){
+                        angular.element(document).ready(function(){ angular.bootstrap(document, ['optc']); });
+                    }
+                    return;
+                }
+                var s = document.createElement('script'); s.src = scripts[i] + '?ts=' + Date.now(); s.async = false;
+                s.onload = function(){ loadNext(i+1); };
+                s.onerror = function(){ console.error('Failed to load ' + scripts[i]); loadNext(i+1); };
+                document.head.appendChild(s);
+            }
+            loadNext(0);
+        })();
+        </script>
 
         <script src="js/index.js"></script>
         <script src="js/states.js"></script>
