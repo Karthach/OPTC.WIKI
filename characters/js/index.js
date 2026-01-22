@@ -4,7 +4,7 @@
 
 var app = angular.module('optc', [ 'ui.router', 'ui.bootstrap', 'ngSanitize', 'chart.js', 'ngDialog' ]);
 
-Utils.parseUnits(false);
+/* Deferred: Utils.parseUnits(false) will be called by the data loader after heavy data and utils are loaded. */
 
 /********************
  * GA Configuration *
