@@ -62,7 +62,7 @@
         <div id="data-loader" style="position:fixed;left:0;top:0;right:0;bottom:0;display:flex;align-items:center;justify-content:center;background:#fff;z-index:9999;font-family:PT Sans, Arial, sans-serif;">Cargando datos, por favor espera...</div>
         <script>
         (function(){
-            var scripts = [
+            var dataScripts = [
                 '../common/data/units.js',
                 '../common/data/details.js',
                 '../common/data/rumble.js',
@@ -70,26 +70,37 @@
                 '../common/data/captains.js',
                 '../common/js/utils.js'
             ];
-            function loadNext(i){
-                if(i>=scripts.length){
-                    try{ if(window.Utils && Utils.parseUnits) Utils.parseUnits(false); }catch(e){ console.error(e); }
+            var appScripts = [
+                'js/index.js',
+                'js/states.js',
+                'js/controllers.js',
+                'js/directives.js',
+                'js/table.js',
+                'js/utils.js',
+                '../common/js/directives.js',
+                '../common/js/services.js'
+            ];
+            function loadSeq(list, i, cb){
+                if(i>=list.length){ cb(); return; }
+                var s = document.createElement('script'); s.src = list[i] + '?ts=' + Date.now(); s.async = false;
+                s.onload = function(){ loadSeq(list, i+1, cb); };
+                s.onerror = function(){ console.error('Failed to load ' + list[i]); loadSeq(list, i+1, cb); };
+                document.head.appendChild(s);
+            }
+            loadSeq(dataScripts, 0, function(){
+                try{ if(window.Utils && Utils.parseUnits) Utils.parseUnits(false); }catch(e){ console.error(e); }
+                loadSeq(appScripts, 0, function(){
                     var loader = document.getElementById('data-loader'); if(loader) loader.style.display='none';
-                    // Bootstrap manual de Angular solo después de cargar datos
+                    // Bootstrap manual de Angular solo después de cargar datos y scripts de la app
                     if(!document.querySelector('[ng-app]')){
                         angular.element(document).ready(function(){ angular.bootstrap(document, ['optc']); });
                     }
-                    return;
-                }
-                var s = document.createElement('script'); s.src = scripts[i] + '?ts=' + Date.now(); s.async = false;
-                s.onload = function(){ loadNext(i+1); };
-                s.onerror = function(){ console.error('Failed to load ' + scripts[i]); loadNext(i+1); };
-                document.head.appendChild(s);
-            }
-            loadNext(0);
+                });
+            });
         })();
         </script>
 
-        <script src="js/index.js"></script>
+        <!--<script src="js/index.js"></script>
         <script src="js/states.js"></script>
         <script src="js/controllers.js"></script>
         <script src="js/directives.js"></script>
@@ -98,7 +109,7 @@
 
         <script src="../common/js/directives.js"></script>
         <script src="../common/js/services.js"></script>
-        <!--<script src="../common/js/error.js"></script>-->
+        --><!--<script src="../common/js/error.js"></script>-->
 
     </head>
 
