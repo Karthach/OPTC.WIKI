@@ -7,23 +7,23 @@
 <div id="queryContainer">
     <label for="burgerMenuState" id="burgerMenu" class="fa fa-bars fa-lg"></label>
     
-    <input type="text" id="picker" placeholder="type to filter"
+    <input type="text" id="picker" placeholder="escribe para filtrar"
         ng-model="query" ng-model-options="{ updateOn: 'change blur' }" auto-focus>
 
-    <button ng-if="query" ng-click="clearQuery()" title="clear">
+    <button ng-if="query" ng-click="clearQuery()" title="borrar">
         <i class="fa fa-times"></i>
-        <span>Clear</span>
+        <span>Borrar</span>
     </button>
 
-    <button ng-click="query = getRandChar();" title="random">
+    <button ng-click="query = getRandChar();" title="aleatorio">
         <i class="fa fa-random"></i>
-        <span>Random</span>
+        <span>Aleatorio</span>
     </button>
 
     <button popover-trigger="mouseenter" popover-placement="bottom"
-        uib-popover-template="'operators.html'" popover-append-to-body="'true'" title="operators">
+        uib-popover-template="'operators.html'" popover-append-to-body="'true'" title="operadores">
         <i class="fa fa-info-circle"></i>
-        <span>Operators</span>
+        <span>Operadores</span>
     </button>
 </div>
 
@@ -33,35 +33,35 @@
 
 <script id="operators.html" type="text/ng-template">
     <div>
-        Supported string operators:
+        Operadores de búsqueda soportados:
         <br>
         <ul>
-            <li><tt>type:X</tt>: shows only units of type X (STR, DEX, QCK, ...)</li>
-            <li><tt>class:X</tt>: shows only units of class X (fighter, slasher, ...)</li>
-            <ul><li>For Free Spirit units enter free_spirit or just free</li></ul>
-            <li><tt>family:X</tt>: shows only units of family X (Monkey_D._Luffy, Nami, ...)</li>
-            <ul><li>Use underscores "_" instead of spaces </li></ul>
-            <ul><li>Use notFamily:X to exclude family X </li></ul>
-            <li><tt>supports:X</tt>: shows only units that can be attached as a support for unit ID X</li>
-            <li><tt>units:X</tt>: shows units based on ID, separated by |</li>
+            <li><tt>type:X</tt>: muestra solo unidades del tipo X (STR, DEX, QCK, ...)</li>
+            <li><tt>class:X</tt>: muestra solo unidades de la clase X (fighter, slasher, ...)</li>
+            <ul><li>Para unidades Free Spirit usa free_spirit o simplemente free</li></ul>
+            <li><tt>family:X</tt>: muestra solo unidades de la familia X (Monkey_D._Luffy, Nami, ...)</li>
+            <ul><li>Usa guiones bajos "_" en lugar de espacios</li></ul>
+            <ul><li>Usa notFamily:X para excluir la familia X</li></ul>
+            <li><tt>supports:X</tt>: muestra solo unidades que pueden usarse como support para la unidad ID X</li>
+            <li><tt>units:X</tt>: muestra unidades por ID, separadas por |</li>
         </ul>
         <br>
-        Supported mathematical operators:
+        Operadores matemáticos soportados:
         <ul>
-            <li><tt>hp&gt;X</tt>: shows only units with max HP &gt; X</li>
-            <li><tt>atk&gt;X</tt>: shows only units with max ATK &gt; X</li>
-            <li><tt>cost&gt;X</tt>: shows only units with a cost higher than X</li>
-            <li><tt>stars&gt;X</tt>: shows only units with more than X stars</li>
-            <li><tt>id&gt;X</tt>: shows only units with ID greater than X</li>
-            <li><tt>slots&gt;X</tt>: shows only units with more than X slots</li>
-            <li><tt>combo&gt;X</tt>: shows only units with CMB &gt; X</li>
-            <li><tt>exp&gt;X</tt>: shows only units that require more than X EXP to max</li>
-            <li><tt>minCD&gt;X</tt>: shows only units with a minimum CD higher than X</li>
-            <li><tt>maxCD&gt;X</tt>: shows only units with a maximum CD higher than X</li>
+            <li><tt>hp&gt;X</tt>: muestra solo unidades con HP máximo &gt; X</li>
+            <li><tt>atk&gt;X</tt>: muestra solo unidades con ATK máximo &gt; X</li>
+            <li><tt>cost&gt;X</tt>: muestra solo unidades con coste mayor que X</li>
+            <li><tt>stars&gt;X</tt>: muestra solo unidades con más de X estrellas</li>
+            <li><tt>id&gt;X</tt>: muestra solo unidades con ID mayor que X</li>
+            <li><tt>slots&gt;X</tt>: muestra solo unidades con más de X ranuras</li>
+            <li><tt>combo&gt;X</tt>: muestra solo unidades con CMB &gt; X</li>
+            <li><tt>exp&gt;X</tt>: muestra solo unidades que requieren más de X EXP para maxear</li>
+            <li><tt>minCD&gt;X</tt>: muestra solo unidades con CD mínimo mayor que X</li>
+            <li><tt>maxCD&gt;X</tt>: muestra solo unidades con CD máximo mayor que X</li>
         </ul>
-        Mathematical operators also work with "<tt>&lt;</tt>", "<tt>&gt;=</tt>", "<tt>&lt;=</tt>" and "<tt>=</tt>".
+        Los operadores matemáticos también funcionan con "<tt>&lt;</tt>", "<tt>&gt;=</tt>", "<tt>&lt;=</tt>" y "<tt>=</tt>".
         <br><br>
-        Example query:
+        Ejemplo de búsqueda:
         <br>
         <tt>type:str class:fighter atk>1300 cost>20 family:vinsmoke_sanji supports:2936</tt>
     </div>

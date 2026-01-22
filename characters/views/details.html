@@ -26,8 +26,8 @@
           ></div>
 
           <div ng-if="unit.preview" class="alert alert-warning">
-            <b>WARNING:</b> Currently viewing the preview of an upcoming unit
-            not yet released, the information provided may not be accurate.
+            <b>ADVERTENCIA:</b> Estás viendo la vista previa de una unidad próxima
+            no publicada; la información mostrada puede no ser precisa.
           </div>
 
           <div
@@ -40,7 +40,7 @@
           </div>
 
           <h3 id="detailsSection" class="page-header">
-            Details
+            Detalles
 
             <label>
               <input
@@ -48,7 +48,7 @@
                 ng-model="characterLog[id]"
                 ng-change="checkLog()"
               />
-              In Character Log
+              En el registro de personajes
             </label>
           </h3>
 
@@ -187,7 +187,7 @@
                     <h3 class="page-header" ng-hide="hidden.stats">Stats</h3>
 
                     <uib-tabset ng-hide="hidden.stats">
-                        <uib-tab heading="Stats">
+                        <uib-tab heading="Estadísticas">
                             <div class="panel panel-default panel-x-scroll">
                                 <table class="table table-striped table-bordered">
                                     <thead>
@@ -336,11 +336,11 @@
                                 </table>
                             </div>
                         </uib-tab>
-                        <uib-tab heading="Chart" ng-if="!unit.incomplete">
+                        <uib-tab heading="Gráfica" ng-if="!unit.incomplete">
                             <canvas id="radar-chart" class="chart chart-radar" chart-data="radar.data"
                                 chart-labels="radar.labels" chart-options="radar.options"></canvas>
                         </uib-tab>
-                        <uib-tab heading="HP Growth" ng-if="!unit.incomplete">
+                        <uib-tab heading="Crecimiento HP" ng-if="!unit.incomplete">
                             <canvas id="line-chart" class="chart chart-line" chart-data="radarHP.data"
                                 chart-series="radarHP.series" chart-labels="radarHP.labels"></canvas>
                         </uib-tab>
