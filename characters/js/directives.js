@@ -1184,8 +1184,16 @@
 			replace: true,
 			template: '<div id="gridView"></div>',
 			link: function(scope, element, attrs) {
+				var gridState = {
+					pageSize: 50,
+					currentPage: 0,
+					sortField: 'id',
+					sortDir: 'asc'
+				};
+
 				scope.$watch('table.data', function(data) {
 					if (!data || !scope.viewOptions.gridMode) return;
+					gridState.currentPage = 0;
 					renderGrid();
 				});
 
@@ -1193,11 +1201,20 @@
 					if (gridMode) renderGrid();
 				});
 
+				function getStarsClass(stars) {
+					var s = parseInt(stars) || 1;
+					if (s > 6) s = 6;
+					return 'card-stars-' + s;
+				}
+
+				function hasEvolution(unitId) {
+					return window.evolutions && window.evolutions[unitId];
+				}
+
 				function renderGrid() {
 					if (!scope.table.data) return;
 					element.empty();
 					
-					// Get filtered data from DataTable
 					var displayData = scope.table.data;
 					if (window.charTable && window.charTable.api) {
 						var api = window.charTable.api();
@@ -1205,53 +1222,125 @@
 						displayData = rows.toArray();
 					}
 
-					displayData.forEach(function(rowData) {
-						var unitId = parseInt(rowData[0], 10);
-						var unit = window.units[unitId - 1];
-						if (!unit) return;
-
-						var card = angular.element('<div class="character-card"></div>');
-						
-						// Header con imagen e ID (lado izquierdo)
-						var header = angular.element('<div class="character-card-header"></div>');
-						var img = angular.element('<img class="slot small">');
-						img.attr('src', Utils.getThumbnailUrl(unitId, '..'));
-						img.attr('onerror', "this.onerror=null; this.src='" + Utils.getGlobalThumbnailUrl(unitId, '..') + "'");
-						var idDiv = angular.element('<div class="character-card-id">#' + unitId + '</div>');
-						header.append(img);
-						header.append(idDiv);
-						
-						// Contenido principal (lado derecho)
-						var titleDiv = angular.element('<div class="character-card-title"></div>');
-						var nameLink = angular.element('<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>');
-						titleDiv.append(nameLink);
-						
-						var info = angular.element('<div class="character-card-info"></div>');
-						
-						// Stats principales más relevantes
-						var stats = [
-							{ label: 'Tipo', value: rowData[2], class: 'cell-' + rowData[2] },
-							{ label: 'HP', value: rowData[4] },
-							{ label: 'ATK', value: rowData[5] },
-							{ label: 'RCV', value: rowData[6] },
-							{ label: '★', value: rowData[9] }
-						];
-						
-						stats.forEach(function(stat) {
-							var statDiv = angular.element('<div class="character-card-stat"></div>');
-							if (stat.class) statDiv.addClass(stat.class);
-							statDiv.append('<strong>' + stat.label + ':</strong>');
-							statDiv.append('<span>' + stat.value + '</span>');
-							info.append(statDiv);
-						});
-						
-						titleDiv.append(info);
-						card.append(header);
-						card.append(titleDiv);
-						
-						$compile(card)(scope);
-						element.append(card);
+					// Ordenar
+					var sortIdx = { id: 0, name: 1, type: 2, hp: 4, atk: 5, stars: 9 }[gridState.sortField] || 0;
+					var mult = gridState.sortDir === 'desc' ? -1 : 1;
+					displayData = displayData.slice().sort(function(a, b) {
+						var aVal = a[sortIdx], bVal = b[sortIdx];
+						if (typeof aVal === 'string') return mult * aVal.localeCompare(bVal);
+						return mult * ((parseFloat(aVal) || 0) - (parseFloat(bVal) || 0));
 					});
+
+					var totalItems = displayData.length;
+					var totalPages = Math.ceil(totalItems / gridState.pageSize);
+					var start = gridState.currentPage * gridState.pageSize;
+					var end = Math.min(start + gridState.pageSize, totalItems);
+					var pageData = displayData.slice(start, end);
+
+					// Controles
+					var controls = $('<div class="grid-controls">' +
+						'<div>' +
+							'<label>Mostrar:</label>' +
+							'<select class="page-size">' +
+								'<option value="25">25</option>' +
+								'<option value="50">50</option>' +
+								'<option value="100">100</option>' +
+								'<option value="200">200</option>' +
+							'</select>' +
+							' <label>Ordenar:</label>' +
+							'<select class="sort-field">' +
+								'<option value="id">ID</option>' +
+								'<option value="name">Nombre</option>' +
+								'<option value="type">Tipo</option>' +
+								'<option value="stars">Estrellas</option>' +
+								'<option value="hp">HP</option>' +
+								'<option value="atk">ATK</option>' +
+							'</select>' +
+							'<select class="sort-dir">' +
+								'<option value="asc">↑</option>' +
+								'<option value="desc">↓</option>' +
+							'</select>' +
+						'</div>' +
+						'<div class="grid-info">Mostrando ' + (start+1) + '-' + end + ' de ' + totalItems + '</div>' +
+					'</div>');
+
+					controls.find('.page-size').val(gridState.pageSize).on('change', function() {
+						gridState.pageSize = parseInt(this.value);
+						gridState.currentPage = 0;
+						renderGrid();
+					});
+					controls.find('.sort-field').val(gridState.sortField).on('change', function() {
+						gridState.sortField = this.value;
+						gridState.currentPage = 0;
+						renderGrid();
+					});
+					controls.find('.sort-dir').val(gridState.sortDir).on('change', function() {
+						gridState.sortDir = this.value;
+						gridState.currentPage = 0;
+						renderGrid();
+					});
+
+					element.append(controls);
+
+					// Contenedor de tarjetas
+					var container = $('<div class="grid-container"></div>');
+					
+					for (var i = 0; i < pageData.length; i++) {
+						var rowData = pageData[i];
+						var unitId = parseInt(rowData[0], 10);
+						if (!window.units[unitId - 1]) continue;
+
+						var stars = rowData[9];
+						var starsClass = getStarsClass(stars);
+						var evoHtml = hasEvolution(unitId) ? '<span class="character-card-evo">EVO</span>' : '';
+
+						var html = '<div class="character-card ' + starsClass + '">' +
+							'<div class="character-card-header">' +
+								'<img src="' + Utils.getThumbnailUrl(unitId, '..') + '" ' +
+								'onerror="this.onerror=null;this.src=\'' + Utils.getGlobalThumbnailUrl(unitId, '..') + '\'">' +
+								evoHtml +
+							'</div>' +
+							'<div class="character-card-title">' +
+								'<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>' +
+								'<div class="character-card-info">' +
+									'<span class="character-card-stat cell-' + rowData[2] + '">' + rowData[2] + '</span>' +
+									'<span class="character-card-stat">' + stars + '★</span>' +
+									'<span class="character-card-stat">HP:' + rowData[4] + '</span>' +
+									'<span class="character-card-stat">ATK:' + rowData[5] + '</span>' +
+									'<span class="character-card-stat">RCV:' + rowData[6] + '</span>' +
+								'</div>' +
+							'</div>' +
+							'<span class="character-card-id">#' + unitId + '</span>' +
+						'</div>';
+						
+						var card = angular.element(html);
+						$compile(card)(scope);
+						container.append(card);
+					}
+
+					element.append(container);
+
+					// Paginación
+					var pagination = $('<div class="grid-pagination">' +
+						'<button class="prev-btn" ' + (gridState.currentPage === 0 ? 'disabled' : '') + '>← Anterior</button>' +
+						'<span>Página ' + (gridState.currentPage + 1) + ' de ' + totalPages + '</span>' +
+						'<button class="next-btn" ' + (gridState.currentPage >= totalPages - 1 ? 'disabled' : '') + '>Siguiente →</button>' +
+					'</div>');
+
+					pagination.find('.prev-btn').on('click', function() {
+						if (gridState.currentPage > 0) {
+							gridState.currentPage--;
+							renderGrid();
+						}
+					});
+					pagination.find('.next-btn').on('click', function() {
+						if (gridState.currentPage < totalPages - 1) {
+							gridState.currentPage++;
+							renderGrid();
+						}
+					});
+
+					element.append(pagination);
 				}
 			}
 		};
