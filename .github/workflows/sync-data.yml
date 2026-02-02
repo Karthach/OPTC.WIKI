@@ -1,0 +1,64 @@
+name: Sync Data from 2Shankz
+
+on:
+  # Ejecutar cada domingo a las 12:00 UTC
+  schedule:
+    - cron: '0 12 * * 0'
+  # También permitir ejecución manual
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download data files from 2Shankz
+        run: |
+          cd common/data
+          
+          FILES=(
+            "units.js"
+            "evolutions.js"
+            "details.js"
+            "specials.js"
+            "captains.js"
+            "cooldowns.js"
+            "sailors.js"
+            "flags.js"
+            "families.js"
+            "aliases.js"
+            "rumble.js"
+            "ships.js"
+            "drops.js"
+            "altspecials.js"
+            "capspecials.js"
+            "events.js"
+            "tags.js"
+            "festival.js"
+            "defenses.js"
+            "effects.js"
+            "zombies.js"
+            "matchers.js"
+          )
+          
+          for file in "${FILES[@]}"; do
+            echo "Downloading $file..."
+            curl -sfL "https://raw.githubusercontent.com/2Shankz/optc-db.github.io/master/common/data/$file" -o "$file" || echo "Failed to download $file (may not exist)"
+          done
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet || echo "has_changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push if changed
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "Auto-sync data from 2Shankz repo ($(date +'%Y-%m-%d'))"
+          git push
