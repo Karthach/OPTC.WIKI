@@ -197,6 +197,108 @@ input#burgerMenuState {
 
 }
 
+/********************
+ * View Mode Styles *
+ ********************/
+
+/* Compact Mode */
+#tableContainer.compact-mode #mainTable {
+    font-size: 11px;
+}
+
+#tableContainer.compact-mode #mainTable td,
+#tableContainer.compact-mode #mainTable th {
+    padding: 2px 4px;
+}
+
+#tableContainer.compact-mode .slot.small {
+    width: 32px;
+    height: 32px;
+}
+
+/* Grid Mode */
+#tableContainer.grid-mode #mainTable_wrapper {
+    display: none;
+}
+
+#tableContainer.grid-mode #gridView {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.character-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.character-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.character-card-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+    gap: 10px;
+}
+
+.character-card-header img {
+    width: 50px;
+    height: 50px;
+}
+
+.character-card-title {
+    flex: 1;
+    text-align: left;
+}
+
+.character-card-id {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.character-card-name {
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+}
+
+.character-card-info {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    font-size: 12px;
+}
+
+.character-card-stat {
+    padding: 4px 8px;
+    background: #f5f5f5;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.character-card-stat strong {
+    display: block;
+    font-size: 10px;
+    color: #888;
+    margin-bottom: 2px;
+}
+
 /**********
  * Other *
  **********/

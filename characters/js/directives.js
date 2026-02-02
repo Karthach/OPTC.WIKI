@@ -1178,6 +1178,86 @@
 		return retVal;
 	}
 
+	directives.characterGrid = function ($rootScope, $compile) {
+		return {
+			restrict: 'E',
+			replace: true,
+			template: '<div id="gridView"></div>',
+			link: function(scope, element, attrs) {
+				scope.$watch('table.data', function(data) {
+					if (!data || !scope.viewOptions.gridMode) return;
+					renderGrid();
+				});
+
+				scope.$watch('viewOptions.gridMode', function(gridMode) {
+					if (gridMode) renderGrid();
+				});
+
+				function renderGrid() {
+					if (!scope.table.data) return;
+					element.empty();
+					
+					// Get filtered data from DataTable
+					var displayData = scope.table.data;
+					if (window.charTable && window.charTable.api) {
+						var api = window.charTable.api();
+						var rows = api.rows({ filter: 'applied' }).data();
+						displayData = rows.toArray();
+					}
+
+					displayData.forEach(function(rowData) {
+						var unitId = parseInt(rowData[0], 10);
+						var unit = window.units[unitId - 1];
+						if (!unit) return;
+
+						var card = angular.element('<div class="character-card"></div>');
+						
+						var header = angular.element('<div class="character-card-header"></div>');
+						var img = angular.element('<img class="slot small">');
+						img.attr('src', Utils.getThumbnailUrl(unitId, '..'));
+						img.attr('onerror', "this.onerror=null; this.src='" + Utils.getGlobalThumbnailUrl(unitId, '..') + "'");
+						
+						var titleDiv = angular.element('<div class="character-card-title"></div>');
+						var idDiv = angular.element('<div class="character-card-id">#' + unitId + '</div>');
+						var nameLink = angular.element('<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>');
+						
+						titleDiv.append(idDiv);
+						titleDiv.append(nameLink);
+						header.append(img);
+						header.append(titleDiv);
+						
+						var info = angular.element('<div class="character-card-info"></div>');
+						
+						var stats = [
+							{ label: 'Type', value: rowData[2], class: 'cell-' + rowData[2] },
+							{ label: 'Class', value: rowData[3] },
+							{ label: 'HP', value: rowData[4] },
+							{ label: 'ATK', value: rowData[5] },
+							{ label: 'RCV', value: rowData[6] },
+							{ label: 'Cost', value: rowData[7] },
+							{ label: 'Slots', value: rowData[8] },
+							{ label: 'Stars', value: rowData[9] }
+						];
+						
+						stats.forEach(function(stat) {
+							var statDiv = angular.element('<div class="character-card-stat"></div>');
+							if (stat.class) statDiv.addClass(stat.class);
+							statDiv.append('<strong>' + stat.label + '</strong>');
+							statDiv.append('<span>' + stat.value + '</span>');
+							info.append(statDiv);
+						});
+						
+						card.append(header);
+						card.append(info);
+						
+						$compile(card)(scope);
+						element.append(card);
+					});
+				}
+			}
+		};
+	};
+
 	/******************
 	 * Initialization *
 	 ******************/

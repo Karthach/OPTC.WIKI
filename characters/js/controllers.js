@@ -62,6 +62,14 @@
         });
       }
 
+      // Initialize view options
+      if (!$rootScope.viewOptions) {
+        $rootScope.viewOptions = {
+          compactMode: $storage.get("view.compact", false),
+          gridMode: $storage.get("view.grid", false)
+        };
+      }
+
       $scope.query = $state.params.query;
 
       $scope.$watch("query", function (query) {
@@ -97,11 +105,24 @@
 
   app.controller(
     "SidebarCtrl",
-    function ($scope, $rootScope, $stateParams, $timeout) {
+    function ($scope, $rootScope, $stateParams, $timeout, $storage) {
       $scope.availableClasses = window.availableClasses;
       $scope.availableTags = window.availableTags;
       $scope.farmableOptions = window.farmableOptions;
       $scope.nonFarmableOptions = window.nonFarmableOptions;
+
+      // View options
+      $scope.viewOptions = $rootScope.viewOptions;
+
+      $scope.toggleCompactMode = function() {
+        $rootScope.viewOptions.compactMode = !$rootScope.viewOptions.compactMode;
+        $storage.set("view.compact", $rootScope.viewOptions.compactMode);
+      };
+
+      $scope.toggleGridMode = function() {
+        $rootScope.viewOptions.gridMode = !$rootScope.viewOptions.gridMode;
+        $storage.set("view.grid", $rootScope.viewOptions.gridMode);
+      };
 
       $timeout(function () {
         $scope.$watch(

@@ -168,3 +168,27 @@ a { color: #8acccf; }
     }
     
 }
+
+/* Dark mode styles for grid view */
+.character-card {
+    background: #404040 !important;
+    border-color: #555 !important;
+    color: #f6f3e8 !important;
+}
+
+.character-card-id {
+    color: #f6f3e8 !important;
+}
+
+.character-card-name {
+    color: #aaa !important;
+}
+
+.character-card-stat {
+    background: #505050 !important;
+    color: #f6f3e8 !important;
+}
+
+.character-card-stat strong {
+    color: #bbb !important;
+}
