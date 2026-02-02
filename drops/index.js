@@ -207,7 +207,7 @@ app.directive('dayLabel',function() {
         restrict: 'E',
         template: '<span class="day-label" ng-if="island.day >= 0" ng-class="{ active: isActive }">{{day}}</span>',
         link: function(scope, element, attrs) {
-            scope.day = [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][scope.island.day];
+            scope.day = [ 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'][scope.island.day];
             scope.isActive = CharUtils.getDayOfWeek(false) == scope.island.day || CharUtils.getDayOfWeek(true, true) == scope.island.day;
         }
     };
@@ -239,12 +239,12 @@ mytime=setTimeout('updateTimes()',refresh)
 
 function updateTimes(){
     //Japan can also be Etc/GMT-9
-    document.getElementById("times").innerHTML = "Global: <b>"+moment().tz('Etc/GMT+8').format('H:mm:ss')+"</b> | Japan: <b>"+moment().tz('Asia/Tokyo').format('H:mm:ss')+"</b>";
+    document.getElementById("times").innerHTML = "Global: <b>"+moment().tz('Etc/GMT+8').format('H:mm:ss')+"</b> | Japón: <b>"+moment().tz('Asia/Tokyo').format('H:mm:ss')+"</b>";
 
     if(moment().tz('Asia/Tokyo').format('H')>12 && moment().tz('Asia/Tokyo').format('H')<23){
-        document.getElementById("timesNote").innerHTML = "The Bonuses in the Japanese Version only last from 12:00 till 23:00<br><b>Japan Bonuses are currently active<b>";
+        document.getElementById("timesNote").innerHTML = "Las bonificaciones en la versión japonesa solo duran de 12:00 a 23:00<br><b>Las bonificaciones de Japón están activas actualmente</b>";
     }else{
-         document.getElementById("timesNote").innerHTML = "The Bonuses in the Japanese Version only last from 12:00 till 23:00<br><b>Japan Bonuses are currently not active<b>";
+         document.getElementById("timesNote").innerHTML = "Las bonificaciones en la versión japonesa solo duran de 12:00 a 23:00<br><b>Las bonificaciones de Japón no están activas actualmente</b>";
     }
     tt=refreshTimer();
 }

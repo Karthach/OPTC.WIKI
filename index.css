@@ -37,3 +37,13 @@ body {
 	margin-top: 15%;
 	animation: fa-spin 3s infinite linear;
 }
+
+/* Mejoras de fluidez */
+.animated {
+	animation-duration: 0.6s;
+	animation-fill-mode: both;
+}
+
+a, button, input, select {
+	transition: all 0.2s ease;
+}

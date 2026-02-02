@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="optc">
+<html lang="es" ng-app="optc">
 
     <head>
 
@@ -15,11 +15,11 @@
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=600, height=650, initial-scale=0.6, user-scalable=no, user-scalable=0">
-        <meta name="description" itemprop="description" content="One Piece Treasure Cruise Drop Table">
+        <meta name="description" itemprop="description" content="Tabla de Drops de One Piece Treasure Cruise">
         <meta name="author" content="Zeenigami and Mondfischer">
-        <meta name="keywords" content="OPTC, One Piece Treasure Cruise, Database, Calculator, Guides, Help, Walkthroughs, Tutorials">
+        <meta name="keywords" content="OPTC, One Piece Treasure Cruise, Base de datos, Calculadora, Guías, Ayuda, Tutoriales">
 
-        <title>One Piece Treasure Cruise Drop Table</title>
+        <title>Tabla de Drops - One Piece Treasure Cruise</title>
 
         <link href='//fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
@@ -197,12 +197,12 @@
         <div id="main" ng-cloak>
 
             <h1 class="page-header">
-                Drop Table
-                <label><input type="checkbox" ng-model="onlyGlobal" ng-change="changeFilters()">Show only Global</label>
-                <label><input type="checkbox" ng-model="noFodder" ng-change="changeFilters()">Hide fodder</label>
-                <label><input type="checkbox" ng-model="noEvolverBooster" ng-change="changeFilters()">Hide Boosters and Evolvers</label>
-                <label><input type="checkbox" ng-model="sortByType" ng-change="changeSorting()">Sort by type</label>
-                <input class="pull-right" type="text" placeholder="Filter by name" auto-focus
+                Tabla de Drops
+                <label><input type="checkbox" ng-model="onlyGlobal" ng-change="changeFilters()">Mostrar solo Global</label>
+                <label><input type="checkbox" ng-model="noFodder" ng-change="changeFilters()">Ocultar fodder</label>
+                <label><input type="checkbox" ng-model="noEvolverBooster" ng-change="changeFilters()">Ocultar Potenciadores y Evolvers</label>
+                <label><input type="checkbox" ng-model="sortByType" ng-change="changeSorting()">Ordenar por tipo</label>
+                <input class="pull-right" type="text" placeholder="Filtrar por nombre" auto-focus
                     ng-model="queryFilter" ng-model-options="{ debounce: 500 }" ng-change="changeQueryFilter()" id="search">
             </h1>
 
@@ -216,7 +216,7 @@
                 </h2> 
             </div>
 
-            <h1 class="page-header">Bonus Table</h1>
+            <h1 class="page-header">Tabla de Bonificaciones</h1>
             
             <div>
                 <p id="times"></p>
@@ -226,14 +226,14 @@
             <table class="table table-dark" id="bonus-table" add-bonuses>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>MON</th>
-                        <th>TUE</th>
-                        <th>WED</th>
-                        <th>THU</th>
-                        <th>FRI</th>
-                        <th>SAT</th>
-                        <th>SUN</th>
+                        <th>Nombre</th>
+                        <th>LUN</th>
+                        <th>MAR</th>
+                        <th>MIE</th>
+                        <th>JUE</th>
+                        <th>VIE</th>
+                        <th>SAB</th>
+                        <th>DOM</th>
                     </tr>
                 </thead>
                 <tbody>

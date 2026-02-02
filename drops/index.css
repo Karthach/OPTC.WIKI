@@ -15,6 +15,7 @@ body {
 h2, h3 {
     margin: 5px 0 5px 0;
     padding-bottom: 2px;
+    transition: all 0.2s ease;
 }
 
 h3 > div, td {
@@ -23,6 +24,7 @@ h3 > div, td {
 
 .island {
     margin-left: 25px;
+    transition: all 0.3s ease;
 }
 
 .island.collapsed > h3 {
@@ -85,10 +87,10 @@ h1 > label > input {
     width: 20%;
 }
 
-#bonus-table td.stamina { background: rgba(133,193,245,0.2); }
-#bonus-table td.drop    { background: rgba(233,109,99,0.2);  }
-#bonus-table td.beli    { background: rgba(127,202,159,0.2); }
-#bonus-table td.exp     { background: rgba(244,186,112,0.2); }
+#bonus-table td.stamina { background: rgba(133,193,245,0.2); transition: background 0.2s ease; }
+#bonus-table td.drop    { background: rgba(233,109,99,0.2); transition: background 0.2s ease; }
+#bonus-table td.beli    { background: rgba(127,202,159,0.2); transition: background 0.2s ease; }
+#bonus-table td.exp     { background: rgba(244,186,112,0.2); transition: background 0.2s ease; }
 
 #bonus-table tr:hover td.stamina      { background: rgb(48, 148, 234); }
 #bonus-table tr:hover td.drop         { background: rgb(227, 48, 35);  }
@@ -128,10 +130,12 @@ h1 > label > input {
 
 .slot {
     display: inline-block;
+    transition: all 0.15s ease;
 }
 
 .slot:hover {
     outline: 1px solid red;
+    transform: scale(1.05);
 }
 
 /*************

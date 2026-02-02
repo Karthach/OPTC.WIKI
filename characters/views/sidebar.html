@@ -1,6 +1,6 @@
 <div style="display: flex;">
-    <div id="clear-button" class="filter-header" style="flex: 1;" ng-click="clearFilters()">Clear All</div>
-    <div id="toggle-button" class="filter-header" style="flex: 1;" ng-click="toggleFilters()">Toggle All</div>
+    <div id="clear-button" class="filter-header" style="flex: 1;" ng-click="clearFilters()">Limpiar Todo</div>
+    <div id="toggle-button" class="filter-header" style="flex: 1;" ng-click="toggleFilters()">Alternar Todo</div>
 </div>
 
 <!-- Event Boosters -->
@@ -60,11 +60,9 @@
         <span ng-repeat="class in availableClasses" class="filter width-6 class" ng-click="onClassClick($event,class)"
             ng-class="{ active: filters.classes.indexOf(class) > -1 }">{{::class}}</span>
         <span class="filter width-12 exc" ng-class="{ active: filters.classInclusive === true }"
-            ng-model="filters.classInclusive" ng-click="filters.classInclusive = !filters.classInclusive">Exclude Characters
-            with other Classes</span>
+            ng-model="filters.classInclusive" ng-click="filters.classInclusive = !filters.classInclusive">Excluir personajes con otras clases</span>
         <span class="filter width-12 exc" ng-class="{ active: filters.noSingleClass === true }"
-            ng-model="filters.noSingleClass" ng-click="filters.noSingleClass = !filters.noSingleClass">Exclude Single Class
-            Characters</span>
+            ng-model="filters.noSingleClass" ng-click="filters.noSingleClass = !filters.noSingleClass">Excluir personajes de clase única</span>
     </div>
 </div>
 
@@ -106,7 +104,7 @@
     <div class="collapse">
         <label class="filter width-12 tags">
             <input type="checkbox" style="margin-right: 5px;" ng-model="filters.tagsStrict">
-            Match all selected tags
+            Coincidir con todas las etiquetas seleccionadas
         </label>
 
         <div style="max-height: 350px; overflow-y: auto; padding-right: 5px;">
@@ -118,19 +116,19 @@
 
 <!-- Drop -->
 <div class="filter-container" id="drop-filter">
-   <animate-collapse class="filter-header">Drop</animate-collapse>
+   <animate-collapse class="filter-header">Obtención</animate-collapse>
    <div class="collapse">
-      <span ng-repeat="type in [ 'Farmable', 'Non-farmable' ]" class="filter width-6 drop" ng-model="filters.drop"
+      <span ng-repeat="type in [ 'Farmable', 'No farmable' ]" class="filter width-6 drop" ng-model="filters.drop"
          ng-class="{ active: filters.drop == type }" ng-click="onFilterClick($event,type)">{{::type}}</span>
-      <span ng-repeat="type in [ 'Global units', 'Japan exclusives' ]" class="filter width-6 drop"
+      <span ng-repeat="type in [ 'Unidades Global', 'Exclusivos de Japón' ]" class="filter width-6 drop"
          ng-model="filters.server" ng-class="{ active: filters.server == type }"
          ng-click="onFilterClick($event,type)">{{::type}}</span>
-      <span ng-repeat="type in [ 'In RR pool', 'Not in RR pool' ]" class="filter width-6 drop" ng-model="filters.rr"
+      <span ng-repeat="type in [ 'En pool RR', 'No en pool RR' ]" class="filter width-6 drop" ng-model="filters.rr"
          ng-class="{ active: filters.rr == type }" ng-click="onFilterClick($event,type)">{{::type}}</span>
-      <span ng-repeat="type in [ 'Farmable Sockets', 'No Farmable Sockets' ]" class="filter width-6 drop"
+      <span ng-repeat="type in [ 'Sockets farmeables', 'Sin sockets farmeables' ]" class="filter width-6 drop"
          ng-model="filters.socket" ng-class="{ active: filters.socket == type }"
          ng-click="onFilterClick($event,type)">{{::type}}</span>
-      <span ng-repeat="type in [ 'Inkable', 'Not Inkable' ]" class="filter width-6 drop" ng-model="filters.inkable"
+      <span ng-repeat="type in [ 'Con Ink', 'Sin Ink' ]" class="filter width-6 drop" ng-model="filters.inkable"
          ng-class="{ active: filters.inkable == type }" ng-click="onFilterClick($event,type)">{{::type}}</span>
        <!-- Farmable nested inside Drop -->
        <div class="filter-container" id="farmable-filter">
@@ -148,7 +146,7 @@
        </div>
        <!-- Non-farmable nested inside Drop -->
        <div class="filter-container" id="non-farmable-filter">
-          <animate-collapse class="filter-header">Non-farmable</animate-collapse>
+          <animate-collapse class="filter-header">No farmable</animate-collapse>
           <div class="collapse">
              <span ng-repeat="opt in nonFarmableOptions" class="filter width-6 drop"
                 ng-class="{ active: filters.nonFarmable[opt.key] }"
@@ -165,14 +163,14 @@
 
 <!-- Exclusion Filters -->
 <div class="filter-container" id="exclusion-filter">
-    <animate-collapse class="filter-header">Exclusion Filters</animate-collapse>
+    <animate-collapse class="filter-header">Filtros de Exclusión</animate-collapse>
     <div class="collapse">
         <span class="filter width-6 exc" ng-model="filters.noBase" ng-class="{ active: filters.noBase }"
-            ng-click="filters.noBase = !filters.noBase">Hide base forms</span>
+            ng-click="filters.noBase = !filters.noBase">Ocultar formas base</span>
             <span class="filter width-6 exc" ng-model="filters.noFodder" ng-class="{ active: filters.noFodder }"
-            ng-click="filters.noFodder = !filters.noFodder">Hide fodder</span>
+            ng-click="filters.noFodder = !filters.noFodder">Ocultar fodder</span>
         <span class="filter width-12 exc" ng-model="filters.noEvos" ng-class="{ active: filters.noEvos }"
-            ng-click="filters.noEvos = !filters.noEvos">Hide Boosters and Evolvers</span>
+            ng-click="filters.noEvos = !filters.noEvos">Ocultar Potenciadores y Evolvers</span>
     </div>
 </div>
 
@@ -184,7 +182,7 @@
 
 <!-- Cost -->
 <div class="filter-container" id="cost-container">
-    <animate-collapse class="filter-header filter-header-pve">Cost</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Coste</animate-collapse>
     <div class="collapse">
         <input type="text" id="cost-slider" name="cost-slider" value="" cost-slider></input>
     </div>
@@ -192,7 +190,7 @@
 
 <!-- Specific Captain -->
 <div class="filter-container" id="specCapt-filter">
-    <animate-collapse class="filter-header filter-header-pve">Specific Captain</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Capitán Específico</animate-collapse>
     <div class="collapse">
         <span class="filter width-6 exc" ng-model="filters.katakuri" ng-class="{ active: filters.katakuri }"
             ng-click="filters.katakuri = !filters.katakuri">Double Boosted Katakuri Units</span><!--
@@ -210,7 +208,7 @@
 </div>
 
 <div class="filter-container expandable" id="temporary-filter" ng-show="false">
-    <animate-collapse class="filter-header">Temporary filters</animate-collapse>
+    <animate-collapse class="filter-header">Filtros temporales</animate-collapse>
     <div class="collapse">
         <!--span class="filter width-12 exc" ng-model="filters.wapolAssault" ng-class="{ active: filters.wapolAssault }"
             ng-click="filters.wapolAssault = !filters.wapolAssault">Show Wapol's Assault Boosters</span-->
@@ -244,55 +242,55 @@
 </div>
 
 <div class="filter-container" id="captain-container">
-    <animate-collapse class="filter-header filter-header-pve">Captain Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad de Capitán</animate-collapse>
     <add-custom-filters id="captainFilters" target="captain" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="special-container">
-    <animate-collapse class="filter-header filter-header-pve">Special Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad Especial</animate-collapse>
     <add-custom-filters target="special" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="super-criteria-container">
-    <animate-collapse class="filter-header filter-header-pve">VS/Super Special Criteria</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Criterio de VS/Super Especial</animate-collapse>
     <add-custom-filters target="superSpecialCriteria" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="super-container">
-    <animate-collapse class="filter-header filter-header-pve">VS/Super Special Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad VS/Super Especial</animate-collapse>
     <add-custom-filters target="superSpecial" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="swap-container">
-    <animate-collapse class="filter-header filter-header-pve">Swap Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad de Swap</animate-collapse>
     <add-custom-filters target="swap" filter-data="filterData" filters="filters" class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="sailor-container">
-    <animate-collapse class="filter-header filter-header-pve">Sailor Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad de Marinero</animate-collapse>
     <add-custom-filters target="sailor" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="potential-container">
-    <animate-collapse class="filter-header filter-header-pve">Potential Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad Potencial</animate-collapse>
     <add-custom-filters target="potential" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="support-container">
-    <animate-collapse class="filter-header filter-header-pve">Support Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pve">Habilidad de Support</animate-collapse>
     <add-custom-filters target="support" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <!-- Rumble Style -->
 <div class="filter-container" id="rumble-style-filter">
-    <animate-collapse class="filter-header filter-header-pvp">Rumble Style</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Estilo Rumble</animate-collapse>
     <div class="collapse">
         <div style="display: flex;">
             <span class="filter exc" style="flex: 1;" ng-model="filters.styleATK" ng-class="{ active: filters.styleATK }"
@@ -313,47 +311,47 @@
 
 
 <div class="filter-container" id="rumble-cost-container">
-    <animate-collapse class="filter-header filter-header-pvp">Rumble Cost</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Coste Rumble</animate-collapse>
     <add-custom-filters target="rumbleCost" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="rumble-ability-container">
-    <animate-collapse class="filter-header filter-header-pvp">Rumble Ability</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Habilidad Rumble</animate-collapse>
     <add-custom-filters target="rumbleAbility" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="rumble-special-container">
-    <animate-collapse class="filter-header filter-header-pvp">Rumble Special</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Especial Rumble</animate-collapse>
     <add-custom-filters target="rumbleSpecial" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="rumble-resistance-container">
-    <animate-collapse class="filter-header filter-header-pvp">Rumble Resistance</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Resistencia Rumble</animate-collapse>
     <add-custom-filters target="rumbleResistance" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="gp-ability-container">
-    <animate-collapse class="filter-header filter-header-pvp">Grand Party Leader</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Líder Grand Party</animate-collapse>
     <add-custom-filters target="gpAbility" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="gp-special-container">
-    <animate-collapse class="filter-header filter-header-pvp">Grand Party Burst</animate-collapse>
+    <animate-collapse class="filter-header filter-header-pvp">Burst Grand Party</animate-collapse>
     <add-custom-filters target="gpSpecial" filter-data="filterData" filters="filters"
         class="collapse"></add-custom-filters>
 </div>
 
 <div class="filter-container" id="charLog-container" ng-if="showLogFilters">
-    <animate-collapse class="filter-header filter-header-log">Character Log filters</animate-collapse>
+    <animate-collapse class="filter-header filter-header-log">Filtros de registro de personajes</animate-collapse>
     <div class="collapse">
         <span class="filter width-12" ng-model="filters.noLog" ng-class="{ active: filters.noLog }"
-            ng-click="filters.noLog = !filters.noLog">Hide units in Character Log</span>
+            ng-click="filters.noLog = !filters.noLog">Ocultar unidades en el registro</span>
         <span class="filter width-12" ng-model="filters.noMissing" ng-class="{ active: filters.noMissing }"
-            ng-click="filters.noMissing = !filters.noMissing">Hide units not in Character Log</span>
+            ng-click="filters.noMissing = !filters.noMissing">Ocultar unidades que no están en el registro</span>
     </div>
 </div>
