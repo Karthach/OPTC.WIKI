@@ -33,6 +33,48 @@
       return data; // only the Name string for filtering, sorting, etc.
     };
 
+    var addEvolutions = function (data, type, row, meta) {
+      if (type !== "display") return "";
+      var unitId = parseInt(row[0], 10);
+      var html = '<div class="evo-cell">';
+      
+      // Pre-evolution (buscar quién evoluciona a esta unidad)
+      var preEvoId = null;
+      if (window.evolutions) {
+        for (var id in window.evolutions) {
+          var evo = window.evolutions[id];
+          if (evo && evo.evolution) {
+            if (Array.isArray(evo.evolution)) {
+              if (evo.evolution.includes(unitId)) { preEvoId = parseInt(id, 10); break; }
+            } else if (evo.evolution === unitId) {
+              preEvoId = parseInt(id, 10); break;
+            }
+          }
+        }
+      }
+      
+      // Evolution (a qué evoluciona)
+      var evoId = null;
+      if (window.evolutions && window.evolutions[unitId]) {
+        var evo = window.evolutions[unitId].evolution;
+        evoId = Array.isArray(evo) ? evo[0] : evo;
+      }
+      
+      if (preEvoId) {
+        html += '<a ui-sref="main.search.view({ id: ' + preEvoId + '})" title="Pre-evo: #' + preEvoId + '">' +
+          '<img class="evo-img pre" data-original="' + Utils.getThumbnailUrl(preEvoId, "..") + '" ' +
+          'onerror="this.onerror=null; this.src=\'' + Utils.getGlobalThumbnailUrl(preEvoId, "..") + '\'"></a>';
+      }
+      if (evoId) {
+        html += '<a ui-sref="main.search.view({ id: ' + evoId + '})" title="Evo: #' + evoId + '">' +
+          '<img class="evo-img" data-original="' + Utils.getThumbnailUrl(evoId, "..") + '" ' +
+          'onerror="this.onerror=null; this.src=\'' + Utils.getGlobalThumbnailUrl(evoId, "..") + '\'"></a>';
+      }
+      
+      html += '</div>';
+      return html;
+    };
+
     var fuse = new Fuse(window.units, {
       keys: ["name", "aliases"],
       id: "number",
@@ -59,6 +101,7 @@
         { title: "Name", render: addImage },
         { title: "Type" },
         { title: "Class" },
+        { title: "Evo", orderable: false, render: addEvolutions },
         { title: "HP" },
         { title: "ATK" },
         { title: "RCV" },
@@ -1256,8 +1299,8 @@
           ("000" + (x.number + 1)).slice(-padding),
           x.name,
           x.type,
-
           x.class.constructor == Array ? x.class.join(", ") : x.class,
+          "", // Evo column (rendered by addEvolutions)
           x.maxHP,
           x.maxATK,
           x.maxRCV,

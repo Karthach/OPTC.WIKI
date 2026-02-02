@@ -44,7 +44,7 @@
 								id +
 								']"></input></label>'
 						);
-						$(row.cells[10 + scope.table.additional]).append(checkbox);
+						$(row.cells[11 + scope.table.additional]).append(checkbox);
 						// cosmetic fixes
 						var typeBox = row.cells[2];
 						var classBox = row.cells[3];
@@ -69,7 +69,6 @@
 							while ((classes.match(new RegExp(",", "g")) || []).length >= 1)
 								classes = classes.replace(",", "/");
 							var classess = classes.split("/");
-							//console.log(classess);
 							var classesHtml =
 								'<span class="cell-' +
 								classess[classess.length - 2] +
@@ -1342,7 +1341,10 @@
 								'onerror="this.onerror=null;this.src=\'' + Utils.getGlobalThumbnailUrl(unitId, '..') + '\'">' +
 							'</div>' +
 							'<div class="character-card-title">' +
-								'<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>' +
+								'<div class="character-card-name-row">' +
+									'<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>' +
+									'<span class="character-card-id">#' + unitId + '</span>' +
+								'</div>' +
 								'<div class="character-card-info">' +
 									'<span class="character-card-stat cell-' + rowData[2] + '">' + rowData[2] + '</span>' +
 									'<span class="character-card-stat">' + starsHtml + '</span>' +
@@ -1353,7 +1355,7 @@
 							'</div>' +
 							'<div class="character-card-evos">' +
 								evoImgHtml +
-								'<span class="character-card-id">#' + unitId + '</span>' +
+								(evoImgHtml && preEvoImgHtml ? '<hr class="evo-divider">' : '') +
 								preEvoImgHtml +
 							'</div>' +
 						'</div>';
