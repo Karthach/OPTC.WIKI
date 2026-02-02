@@ -202,28 +202,60 @@ input#burgerMenuState {
  ********************/
 
 /* ===== COLUMNA EVOLUCIONES EN TABLA ===== */
+#mainTable {
+    overflow: visible !important;
+}
+
+#mainTable tbody {
+    overflow: visible !important;
+}
+
+#mainTable tr {
+    overflow: visible !important;
+}
+
+#mainTable td:nth-child(5) {
+    overflow: visible !important;
+    min-width: 80px;
+    padding: 4px !important;
+}
+
 .evo-cell {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.evo-cell a {
+    display: inline-block;
 }
 
 .evo-cell .evo-img {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border-radius: 3px;
     border: 1px solid #ccc;
-    transition: transform 0.15s;
+    display: block;
+    transition: none;
 }
 
-.evo-cell .evo-img:hover {
-    transform: scale(1.2);
+.evo-cell a:hover .evo-img {
+    position: absolute;
+    width: 48px;
+    height: 48px;
     border-color: #666;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 9999;
+    margin-left: -12px;
+    margin-top: -12px;
 }
 
 .evo-cell .evo-img.pre {
     opacity: 0.7;
+    border-style: dashed;
 }
 
 /* ===== MODO CUADRÍCULA ===== */

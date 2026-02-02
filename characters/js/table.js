@@ -53,11 +53,15 @@
         }
       }
       
-      // Evolution (a qué evoluciona)
-      var evoId = null;
+      // Evolutions (a qué evoluciona - puede ser múltiple)
+      var evoIds = [];
       if (window.evolutions && window.evolutions[unitId]) {
         var evo = window.evolutions[unitId].evolution;
-        evoId = Array.isArray(evo) ? evo[0] : evo;
+        if (Array.isArray(evo)) {
+          evoIds = evo;
+        } else if (evo) {
+          evoIds = [evo];
+        }
       }
       
       if (preEvoId) {
@@ -65,7 +69,8 @@
           '<img class="evo-img pre" data-original="' + Utils.getThumbnailUrl(preEvoId, "..") + '" ' +
           'onerror="this.onerror=null; this.src=\'' + Utils.getGlobalThumbnailUrl(preEvoId, "..") + '\'"></a>';
       }
-      if (evoId) {
+      for (var i = 0; i < evoIds.length; i++) {
+        var evoId = evoIds[i];
         html += '<a ui-sref="main.search.view({ id: ' + evoId + '})" title="Evo: #' + evoId + '">' +
           '<img class="evo-img" data-original="' + Utils.getThumbnailUrl(evoId, "..") + '" ' +
           'onerror="this.onerror=null; this.src=\'' + Utils.getGlobalThumbnailUrl(evoId, "..") + '\'"></a>';
