@@ -1185,7 +1185,7 @@
 			template: '<div id="gridView"></div>',
 			link: function(scope, element, attrs) {
 				var gridState = {
-					pageSize: 50,
+					pageSize: 25,
 					currentPage: 0,
 					sortField: 'id',
 					sortDir: 'asc'
@@ -1207,8 +1207,44 @@
 					return 'card-stars-' + s;
 				}
 
+				function getStarsHtml(stars) {
+					var s = parseInt(stars) || 1;
+					if (s > 6) s = 6;
+					var colors = {
+						1: '#40a3da',
+						2: '#acc523', 
+						3: '#f7c118',
+						4: '#f28e00',
+						5: '#ff0000',
+						6: '#9932cc'
+					};
+					var color = colors[s] || '#999';
+					var starsStr = '';
+					for (var i = 0; i < s; i++) starsStr += '★';
+					return '<span style="color:' + color + ';font-weight:bold;">' + starsStr + '</span>';
+				}
+
 				function hasEvolution(unitId) {
 					return window.evolutions && window.evolutions[unitId];
+				}
+
+				function getEvolutionId(unitId) {
+					if (!window.evolutions || !window.evolutions[unitId]) return null;
+					var evo = window.evolutions[unitId].evolution;
+					return Array.isArray(evo) ? evo[0] : evo;
+				}
+
+				function getPreEvolutionId(unitId) {
+					if (!window.evolutions) return null;
+					for (var id in window.evolutions) {
+						var evo = window.evolutions[id].evolution;
+						if (Array.isArray(evo)) {
+							if (evo.indexOf(unitId) !== -1) return parseInt(id);
+						} else {
+							if (evo === unitId) return parseInt(id);
+						}
+					}
+					return null;
 				}
 
 				function renderGrid() {
@@ -1292,25 +1328,34 @@
 
 						var stars = rowData[9];
 						var starsClass = getStarsClass(stars);
-						var evoHtml = hasEvolution(unitId) ? '<span class="character-card-evo">EVO</span>' : '';
+						var starsHtml = getStarsHtml(stars);
+						
+						var evoId = getEvolutionId(unitId);
+						var preEvoId = getPreEvolutionId(unitId);
+						
+						var evoImgHtml = evoId ? '<img class="evo-thumb" src="' + Utils.getThumbnailUrl(evoId, '..') + '" title="Evoluciona a #' + evoId + '">' : '';
+						var preEvoImgHtml = preEvoId ? '<img class="evo-thumb pre" src="' + Utils.getThumbnailUrl(preEvoId, '..') + '" title="Pre-evolución #' + preEvoId + '">' : '';
 
 						var html = '<div class="character-card ' + starsClass + '">' +
 							'<div class="character-card-header">' +
 								'<img src="' + Utils.getThumbnailUrl(unitId, '..') + '" ' +
 								'onerror="this.onerror=null;this.src=\'' + Utils.getGlobalThumbnailUrl(unitId, '..') + '\'">' +
-								evoHtml +
 							'</div>' +
 							'<div class="character-card-title">' +
 								'<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>' +
 								'<div class="character-card-info">' +
 									'<span class="character-card-stat cell-' + rowData[2] + '">' + rowData[2] + '</span>' +
-									'<span class="character-card-stat">' + stars + '★</span>' +
+									'<span class="character-card-stat">' + starsHtml + '</span>' +
 									'<span class="character-card-stat">HP:' + rowData[4] + '</span>' +
 									'<span class="character-card-stat">ATK:' + rowData[5] + '</span>' +
 									'<span class="character-card-stat">RCV:' + rowData[6] + '</span>' +
 								'</div>' +
 							'</div>' +
-							'<span class="character-card-id">#' + unitId + '</span>' +
+							'<div class="character-card-evos">' +
+								evoImgHtml +
+								'<span class="character-card-id">#' + unitId + '</span>' +
+								preEvoImgHtml +
+							'</div>' +
 						'</div>';
 						
 						var card = angular.element(html);
