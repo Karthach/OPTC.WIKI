@@ -3673,16 +3673,6 @@ window.drops = {
             'Grand Feast Sugo': [ 4467 ]
         },
 
-        {
-            name: 'Orobi',
-            dropID: 'coop8',
-            thumb: 4513,
-            global: true,
-            nakama: null,
-            gamewith: null,
-            'Grand Feast Sugo': [ 4513 ]
-        },
-
     ],
 
 
