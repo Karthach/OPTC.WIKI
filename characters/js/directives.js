@@ -1212,43 +1212,42 @@
 
 						var card = angular.element('<div class="character-card"></div>');
 						
+						// Header con imagen e ID (lado izquierdo)
 						var header = angular.element('<div class="character-card-header"></div>');
 						var img = angular.element('<img class="slot small">');
 						img.attr('src', Utils.getThumbnailUrl(unitId, '..'));
 						img.attr('onerror', "this.onerror=null; this.src='" + Utils.getGlobalThumbnailUrl(unitId, '..') + "'");
-						
-						var titleDiv = angular.element('<div class="character-card-title"></div>');
 						var idDiv = angular.element('<div class="character-card-id">#' + unitId + '</div>');
-						var nameLink = angular.element('<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>');
-						
-						titleDiv.append(idDiv);
-						titleDiv.append(nameLink);
 						header.append(img);
-						header.append(titleDiv);
+						header.append(idDiv);
+						
+						// Contenido principal (lado derecho)
+						var titleDiv = angular.element('<div class="character-card-title"></div>');
+						var nameLink = angular.element('<a ui-sref="main.search.view({ id: ' + unitId + '})" class="character-card-name">' + rowData[1] + '</a>');
+						titleDiv.append(nameLink);
 						
 						var info = angular.element('<div class="character-card-info"></div>');
 						
+						// Stats principales más relevantes
 						var stats = [
-							{ label: 'Type', value: rowData[2], class: 'cell-' + rowData[2] },
-							{ label: 'Class', value: rowData[3] },
+							{ label: 'Tipo', value: rowData[2], class: 'cell-' + rowData[2] },
 							{ label: 'HP', value: rowData[4] },
 							{ label: 'ATK', value: rowData[5] },
 							{ label: 'RCV', value: rowData[6] },
-							{ label: 'Cost', value: rowData[7] },
-							{ label: 'Slots', value: rowData[8] },
-							{ label: 'Stars', value: rowData[9] }
+							{ label: '★', value: rowData[9] }
 						];
 						
 						stats.forEach(function(stat) {
 							var statDiv = angular.element('<div class="character-card-stat"></div>');
 							if (stat.class) statDiv.addClass(stat.class);
-							statDiv.append('<strong>' + stat.label + '</strong>');
+							statDiv.append('<strong>' + stat.label + ':</strong>');
 							statDiv.append('<span>' + stat.value + '</span>');
 							info.append(statDiv);
 						});
 						
+						titleDiv.append(info);
 						card.append(header);
-						card.append(info);
+						card.append(titleDiv);
 						
 						$compile(card)(scope);
 						element.append(card);
